@@ -190,3 +190,15 @@ window.addEventListener('load',function(){
 		}
 	}
 });
+(function(){
+	var oMeta = document.createElement('meta');
+	oMeta.name="viewport"
+	oMeta.content = 'width=device-width,initial-scale='+document.documentElement.clientWidth/400+',maximum-scale=1.0, user-scalable=no';
+	document.getElementsByTagName('head')[0].appendChild(oMeta);
+})();
+(function(){
+	var buttons = document.getElementsByTagName('button');
+	for (var i = buttons.length - 1; i >= 0; i--) {
+		buttons[i].addEventListener("tap",this.onclick);
+	}
+})();
