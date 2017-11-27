@@ -200,18 +200,42 @@ window.addEventListener('load',function(){
 		}
 	}
 	function addAutoMoveTimer(){
-			AutoMoveTimer = window.setInterval(function(){
+		AutoMoveTimer = window.setInterval(function(){
 			if(solution[stepNumber]){
 				autoMove();
 			}else{
 				removeAutoMoveTimer();
 			}
-		},100);
+		},500);
 	}
 	function removeAutoMoveTimer(){
 		console.log("clearInterval(AutoMoveTimer)!");
 		window.clearInterval(AutoMoveTimer); 
 	}
+
+	(function(){
+		var board = document.getElementById("board");
+		var pieces = board.getElementsByClassName("piece");
+		var activePieces;
+		for (var i = pieces.length - 1; i >= 0; i--) {
+			pieces[i].addEventListener("click",function(e){
+				if(activePieces) activePieces.removeAttribute("activePieces");
+				activePieces = this;
+				activePieces.setAttribute("activePieces",1);
+				if ( e && e.stopPropagation ) e.stopPropagation();else window.event.cancelBubble = true; 
+			});
+		}
+		board.addEventListener("click",function(e){
+			X=parseInt(e.offsetX/this.clientWidth*4);
+			Y=parseInt(e.offsetY/this.clientHeight*5);
+			console.log("activePieces = "+activePieces.id+";X="+X+";Y="+Y+";");
+
+		});
+	})();
+
+
+
+
 });
 // meta移动端缩放
 (function(){
