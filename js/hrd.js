@@ -83,13 +83,16 @@ window.addEventListener('load',function(){
 	81:{"CaoCao"     :"LEFT"}};
 
 	var stepNumber = 0;
+	var AutoMoveTimer;
 	reset();
 	var resetButton = document.getElementById("reset");
 	var nextButton = document.getElementById('nextStep');
 	var preButton = document.getElementById('preStep');
+	var autoButton = document.getElementById('auto');
 	resetButton.addEventListener("click",reset);
 	nextButton.addEventListener("click",autoMove);
 	preButton.addEventListener("click",revokeAutoMove);
+	autoButton.addEventListener("click",addAutoMoveTimer);
 	document.addEventListener("keydown",function(event){
 		switch(event.keyCode){
 			case 40:autoMove();break;
@@ -137,6 +140,7 @@ window.addEventListener('load',function(){
 		for(var i = childs.length - 1; i >= 0; i--) { 
 		  board.removeChild(childs[i]); 
 		}
+		removeAutoMoveTimer();
 		addPiecs();
 		stepNumber = 0;
 
@@ -169,10 +173,16 @@ window.addEventListener('load',function(){
 		}
 	}
 	function autoMove(){
-		for(var key in solution[stepNumber]){
-	 		move(key,solution[stepNumber][key]);
-	 	}
-	 	stepNumber++;
+		if(solution[stepNumber]){
+			for(var key in solution[stepNumber]){
+		 		move(key,solution[stepNumber][key]);
+		 	}
+		 	stepNumber++;
+		 	return true;
+		}else{
+			console.log("error[autoMove()]:solution[stepNumber] = "+solution[stepNumber]+";stepNumber = "+stepNumber);
+		 	return false;
+		}
 	}
 	function revokeAutoMove(){
 		var direction;
@@ -189,16 +199,34 @@ window.addEventListener('load',function(){
 		 	}	
 		}
 	}
+	function addAutoMoveTimer(){
+			AutoMoveTimer = window.setInterval(function(){
+			if(solution[stepNumber]){
+				autoMove();
+			}else{
+				removeAutoMoveTimer();
+			}
+		},100);
+	}
+	function removeAutoMoveTimer(){
+		console.log("clearInterval(AutoMoveTimer)!");
+		window.clearInterval(AutoMoveTimer); 
+	}
 });
+// meta移动端缩放
 (function(){
 	var oMeta = document.createElement('meta');
 	oMeta.name="viewport"
-	oMeta.content = 'width=device-width,initial-scale='+document.documentElement.clientWidth/400+',maximum-scale=1.0, user-scalable=no';
+	oMeta.content = 'width=device-width,initial-scale='+document.documentElement.clientWidth/400+',maximum-scale='+document.documentElement.clientWidth/400+', user-scalable=no';
 	document.getElementsByTagName('head')[0].appendChild(oMeta);
 })();
+// 修改手机端click（没有成功T_T）
 (function(){
 	var buttons = document.getElementsByTagName('button');
 	for (var i = buttons.length - 1; i >= 0; i--) {
-		buttons[i].addEventListener("tap",this.onclick);
+		buttons[i].addEventListener("tap",function(){
+			this.onclick();
+			alert(this.innerHTML);
+		});
 	}
 })();
