@@ -25,7 +25,7 @@
 		.piece[y="2"]{top:40%;}
 		.piece[y="3"]{top:60%;}
 		.piece[y="4"]{top:80%;}
-		button{padding: 20px 50px;}
+		button{padding: 10px 30px;}
 	</style>
 </head>
 <body>
@@ -34,7 +34,8 @@
 		<div id="board">
 		</div>
 		<div class="exit">出口</div>
-		<button id="next">下一步</button>
+		<button id="nextStep">下一步</button>
+		<button id="preStep">撤销</button>
 		<button id="reset">重置</button>
 	</div>
 </body>
@@ -127,11 +128,15 @@
 		reset();
 		var resetButton = document.getElementById("reset");
 		resetButton.addEventListener("click",reset);
-		var nextButton = document.getElementById('next');
+		var nextButton = document.getElementById('nextStep');
 		nextButton.addEventListener("click",autoMove);
+		var preButton = document.getElementById('preStep');
+		preButton.addEventListener("click",revokeAutoMove);
 		document.addEventListener("keydown",function(event){
-			if(event.keyCode)
-			alert(event.keyCode);
+			switch(event.keyCode){
+				case 40:autoMove();break;
+				case 38:revokeAutoMove();break;
+			}
 		});
 
 		function addPiece(id,x,y){
@@ -210,6 +215,21 @@
 		 		move(key,solution[stepNumber][key]);
 		 	}
 		 	stepNumber++;
+		}
+		function revokeAutoMove(){
+			var direction;
+			if(stepNumber>0){
+			 	stepNumber--;
+				for(var key in solution[stepNumber]){
+					switch(solution[stepNumber][key]){
+						case "UP" : direction = "DOWN";break;
+						case "DOWN" : direction = "UP";break;
+						case "LEFT" : direction = "RIGHT";break;
+						case "RIGHT" : direction = "LEFT";break;
+					}
+			 		move(key,direction);
+			 	}	
+			}
 		}
 	});
 </script>
