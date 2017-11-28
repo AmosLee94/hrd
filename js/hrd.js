@@ -116,8 +116,8 @@ window.addEventListener('load',function(){
 		newPiece.setAttribute("class","piece");
 		newPiece.setAttribute("x",x);
 		newPiece.setAttribute("y",y);
-		newPiece.setAttribute("rowspan",rowspan);
 		newPiece.setAttribute("colspan",colspan);
+		newPiece.setAttribute("rowspan",rowspan);
 		newPiece.setAttribute("id",id);
 		newPiece.setAttribute("src","img/"+id+".jpg");
 		board.appendChild(newPiece);
@@ -216,20 +216,33 @@ window.addEventListener('load',function(){
 	(function(){
 		var board = document.getElementById("board");
 		var pieces = board.getElementsByClassName("piece");
-		var activePieces;
+		var activePiece;
 		for (var i = pieces.length - 1; i >= 0; i--) {
 			pieces[i].addEventListener("click",function(e){
-				if(activePieces) activePieces.removeAttribute("activePieces");
-				activePieces = this;
-				activePieces.setAttribute("activePieces",1);
+				if(activePiece&&activePiece.getAttribute("active")) activePiece.removeAttribute("active");
+				activePiece = this;
+				activePiece.setAttribute("active",1);
 				if ( e && e.stopPropagation ) e.stopPropagation();else window.event.cancelBubble = true; 
 			});
 		}
 		board.addEventListener("click",function(e){
-			X=parseInt(e.offsetX/this.clientWidth*4);
-			Y=parseInt(e.offsetY/this.clientHeight*5);
-			console.log("activePieces = "+activePieces.id+";X="+X+";Y="+Y+";");
-
+			if(activePiece){
+				var endX=parseInt(e.offsetX/this.clientWidth*4);
+				var endY=parseInt(e.offsetY/this.clientHeight*5);
+				var startX=parseInt(activePiece.getAttribute("x"));
+				var startY=parseInt(activePiece.getAttribute("y"));
+				var colspan=parseInt(activePiece.getAttribute("colspan"));
+				var rowspan=parseInt(activePiece.getAttribute("rowspan"));
+				var direction;
+				console.log("activePiece = "+activePiece.id+";startX="+startX+";startY="+startY+";endX="+endX+";endY="+endY+";colspan="+colspan+";rowspan="+rowspan+";");
+				if(startX + colspan == endX && endY >= startY && endY < startY + rowspan)direction = "RIGHT";
+				if(startX - 1 		== endX && endY >= startY && endY < startY + rowspan)direction = "LEFT";
+				if(startY + rowspan == endY && endX >= startX && endX < startX + colspan)direction = "DOWN";
+				if(startY - 1 		== endY && endX >= startX && endX < startX + colspan)direction = "UP";
+				move(activePiece.id,direction);
+				//需要记录空白处，否则高为2的块向左或向右移动切只有一个空白时，就会出错
+			}
+		
 		});
 	})();
 

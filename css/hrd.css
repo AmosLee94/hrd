@@ -59,7 +59,7 @@ h2{margin: 0;}
 .piece[y="2"]{top:40%;}
 .piece[y="3"]{top:60%;}
 .piece[y="4"]{top:80%;}
-.piece[activePieces="1"]{
+.piece[active="1"]{
 	opacity: 0.6;
 }
 
