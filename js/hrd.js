@@ -1,94 +1,27 @@
-window.addEventListener('load',function(){
-	var solution ={0:{"HuangZhong" :"DOWN"},
-	1:{"GuanYu"     :"RIGHT"},
-	2:{"Zu1"        :"LEFT"},
-	3:{"Zu2"        :"LEFT"},
-	4:{"Zu3"        :"DOWN"},
-	5:{"Zu4"        :"LEFT"},
-	6:{"MaChao"     :"LEFT"},
-	7:{"ZhaoYun"    :"DOWN"},
-	8:{"ZhaoYun"    :"DOWN"},
-	9:{"CaoCao"     :"RIGHT"},
-	10:{"Zu2"        :"UP"},
-	11:{"Zu1"        :"RIGHT"},
-	12:{"HuangZhong" :"UP"},
-	13:{"Zu2"        :"UP"},
-	14:{"Zu1"        :"UP"},
-	15:{"Zu4"        :"UP"},
-	16:{"Zu3"        :"UP"},
-	17:{"GuanYu"     :"LEFT"},
-	18:{"ZhaoYun"    :"DOWN"},
-	19:{"GuanYu"     :"LEFT"},
-	20:{"MaChao"     :"DOWN"},
-	21:{"CaoCao"     :"DOWN"},
-	22:{"Zu2"        :"RIGHT"},
-	23:{"Zu1"        :"UP"},
-	24:{"Zu2"        :"RIGHT"},
-	25:{"Zu1"        :"RIGHT"},
-	26:{"Zu4"        :"UP"},
-	27:{"Zu4"        :"UP"},
-	28:{"CaoCao"     :"LEFT"},
-	29:{"ZhaoYun"    :"UP"},
-	30:{"ZhaoYun"    :"UP"},
-	31:{"MaChao"     :"RIGHT"},
-	32:{"Zu3"        :"RIGHT"},
-	33:{"Zu3"        :"DOWN"},
-	34:{"CaoCao"     :"DOWN"},
-	35:{"Zu1"        :"DOWN"},
-	36:{"Zu4"        :"RIGHT"},
-	37:{"ZhangFei"   :"RIGHT"},
-	38:{"HuangZhong" :"UP"},
-	39:{"HuangZhong" :"UP"},
-	40:{"CaoCao"     :"LEFT"},
-	41:{"Zu1"        :"DOWN"},
-	42:{"Zu1"        :"DOWN"},
-	43:{"Zu4"        :"DOWN"},
-	44:{"Zu2"        :"LEFT"},
-	45:{"ZhaoYun"    :"UP"},
-	46:{"MaChao"     :"UP"},
-	47:{"Zu3"        :"RIGHT"},
-	48:{"Zu1"        :"DOWN"},
-	49:{"CaoCao"     :"RIGHT"},
-	50:{"HuangZhong" :"DOWN"},
-	51:{"HuangZhong" :"DOWN"},
-	52:{"ZhangFei"   :"LEFT"},
-	53:{"Zu2"        :"LEFT"},
-	54:{"Zu4"        :"LEFT"},
-	55:{"ZhaoYun"    :"LEFT"},
-	56:{"MaChao"     :"UP"},
-	57:{"MaChao"     :"UP"},
-	58:{"CaoCao"     :"RIGHT"},
-	59:{"HuangZhong" :"RIGHT"},
-	60:{"ZhangFei"   :"DOWN"},
-	61:{"Zu2"        :"LEFT"},
-	62:{"Zu4"        :"UP"},
-	63:{"HuangZhong" :"UP"},
-	64:{"GuanYu"     :"UP"},
-	65:{"Zu1"        :"LEFT"},
-	66:{"Zu1"        :"LEFT"},
-	67:{"Zu3"        :"LEFT"},
-	68:{"Zu3"        :"LEFT"},
-	69:{"CaoCao"     :"DOWN"},
-	70:{"ZhaoYun"    :"DOWN"},
-	71:{"MaChao"     :"DOWN"},
-	72:{"Zu4"        :"RIGHT"},
-	73:{"Zu2"        :"RIGHT"},
-	74:{"ZhangFei"   :"UP"},
-	75:{"Zu4"        :"RIGHT"},
-	76:{"Zu2"        :"RIGHT"},
-	77:{"HuangZhong" :"UP"},
-	78:{"GuanYu"     :"UP"},
-	79:{"Zu1"        :"UP"},
-	80:{"Zu3"        :"LEFT"},
-	81:{"CaoCao"     :"LEFT"}};
-
-	var stepNumber = 0;
-	var AutoMoveTimer;
-	reset();
+(function(){
+// 全局变量：
+	var board = document.getElementById("board");
+	var pieces = new Array;//棋子，一个字符数组，包含七个棋子和两个空位
+	var activePiece;//当前被选中的棋子
+	// 按钮
 	var resetButton = document.getElementById("reset");
 	var nextButton = document.getElementById('nextStep');
 	var preButton = document.getElementById('preStep');
 	var autoButton = document.getElementById('auto');
+	resetButton.addEventListener("click",reset);
+//解决方法
+	var solution ={0:{"HuangZhong":"DOWN"},1:{"GuanYu" :"RIGHT"},2:{"Zu1" :"LEFT"},3:{"Zu2" :"LEFT"},4:{"Zu3" :"DOWN"},5:{"Zu4" :"LEFT"},6:{"MaChao" :"LEFT"},7:{"ZhaoYun" :"DOWN"},8:{"ZhaoYun" :"DOWN"},9:{"CaoCao" :"RIGHT"},10:{"Zu2" :"UP"},11:{"Zu1" :"RIGHT"},12:{"HuangZhong":"UP"},13:{"Zu2" :"UP"},14:{"Zu1" :"UP"},15:{"Zu4" :"UP"},16:{"Zu3" :"UP"},17:{"GuanYu" :"LEFT"},18:{"ZhaoYun" :"DOWN"},19:{"GuanYu" :"LEFT"},20:{"MaChao" :"DOWN"},21:{"CaoCao" :"DOWN"},22:{"Zu2" :"RIGHT"},23:{"Zu1" :"UP"},24:{"Zu2" :"RIGHT"},25:{"Zu1" :"RIGHT"},26:{"Zu4" :"UP"},27:{"Zu4" :"UP"},28:{"CaoCao" :"LEFT"},29:{"ZhaoYun" :"UP"},30:{"ZhaoYun" :"UP"},31:{"MaChao" :"RIGHT"},32:{"Zu3" :"RIGHT"},33:{"Zu3" :"DOWN"},34:{"CaoCao" :"DOWN"},35:{"Zu1" :"DOWN"},36:{"Zu4" :"RIGHT"},37:{"ZhangFei" :"RIGHT"},38:{"HuangZhong":"UP"},39:{"HuangZhong":"UP"},40:{"CaoCao" :"LEFT"},41:{"Zu1" :"DOWN"},42:{"Zu1" :"DOWN"},43:{"Zu4" :"DOWN"},44:{"Zu2" :"LEFT"},45:{"ZhaoYun" :"UP"},46:{"MaChao" :"UP"},47:{"Zu3" :"RIGHT"},48:{"Zu1" :"DOWN"},49:{"CaoCao" :"RIGHT"},50:{"HuangZhong":"DOWN"},51:{"HuangZhong":"DOWN"},52:{"ZhangFei" :"LEFT"},53:{"Zu2" :"LEFT"},54:{"Zu4" :"LEFT"},55:{"ZhaoYun" :"LEFT"},56:{"MaChao" :"UP"},57:{"MaChao" :"UP"},58:{"CaoCao" :"RIGHT"},59:{"HuangZhong":"RIGHT"},60:{"ZhangFei" :"DOWN"},61:{"Zu2" :"LEFT"},62:{"Zu4" :"UP"},63:{"HuangZhong":"UP"},64:{"GuanYu" :"UP"},65:{"Zu1" :"LEFT"},66:{"Zu1" :"LEFT"},67:{"Zu3" :"LEFT"},68:{"Zu3" :"LEFT"},69:{"CaoCao" :"DOWN"},70:{"ZhaoYun" :"DOWN"},71:{"MaChao" :"DOWN"},72:{"Zu4" :"RIGHT"},73:{"Zu2" :"RIGHT"},74:{"ZhangFei" :"UP"},75:{"Zu4" :"RIGHT"},76:{"Zu2" :"RIGHT"},77:{"HuangZhong":"UP"},78:{"GuanYu" :"UP"},79:{"Zu1" :"UP"},80:{"Zu3" :"LEFT"},81:{"CaoCao" :"LEFT"}};
+//自动行走
+	var stepNumber = 0;
+	var AutoMoveTimer;
+//函数：
+//init() 	//添加方块，并按方案进行排列，再把节点都存进pieces变量中
+//reset()	//按照方案重新排列
+//moveByDirection()	//移动一个方块
+
+
+
+	init();
 	resetButton.addEventListener("click",reset);
 	nextButton.addEventListener("click",autoMove);
 	preButton.addEventListener("click",revokeAutoMove);
@@ -100,53 +33,78 @@ window.addEventListener('load',function(){
 		}
 	});
 
-	function addPiece(id,x,y){
-		switch(id){
-			case "ZhaoYun":case "HuangZhong":case "ZhangFei":case "MaChao":
-				rowspan = 2;colspan = 1;break;
-			case "Zu1":case "Zu2":case "Zu3":case "Zu4":
-				rowspan = 1;colspan = 1;break;
-			case "CaoCao":
-				rowspan = 2;colspan = 2;break;
-			case "GuanYu":
-				rowspan = 1;colspan = 2;break;
-		}
-		var board = document.getElementById("board");
-		var newPiece = document.createElement("img");
-		newPiece.setAttribute("class","piece");
-		newPiece.setAttribute("x",x);
-		newPiece.setAttribute("y",y);
-		newPiece.setAttribute("colspan",colspan);
-		newPiece.setAttribute("rowspan",rowspan);
-		newPiece.setAttribute("id",id);
-		newPiece.setAttribute("src","img/"+id+".jpg");
-		board.appendChild(newPiece);
-	}
-	function addPiecs(){
-		addPiece("CaoCao",1,0);
-		addPiece("GuanYu",1,4);
-		addPiece("ZhaoYun",3,0);
-		addPiece("HuangZhong",0,2);
-		addPiece("ZhangFei",0,0);
-		addPiece("MaChao",3,2);
-		addPiece("Zu1",1,2);
-		addPiece("Zu2",2,2);
-		addPiece("Zu3",1,3);
-		addPiece("Zu4",2,3);
-	}
-	function reset(){
-		var board = document.getElementById("board");
-		var childs = board.childNodes; 
-		for(var i = childs.length - 1; i >= 0; i--) { 
-		  board.removeChild(childs[i]); 
-		}
-		removeAutoMoveTimer();
-		addPiecs();
-		stepNumber = 0;
 
+
+// 函数
+	function init() {
+		function addPiece(id){
+			switch(id){
+				case "ZhaoYun":case "HuangZhong":case "ZhangFei":case "MaChao":
+					rowspan = 2;colspan = 1;break;
+				case "Zu1":case "Zu2":case "Zu3":case "Zu4":
+					rowspan = 1;colspan = 1;break;
+				case "CaoCao":
+					rowspan = 2;colspan = 2;break;
+				case "GuanYu":
+					rowspan = 1;colspan = 2;break;
+			}
+			var newPiece = document.createElement("img");
+			newPiece.setAttribute("class","piece");
+			newPiece.setAttribute("x",0);
+			newPiece.setAttribute("y",0);
+			newPiece.setAttribute("colspan",colspan);
+			newPiece.setAttribute("rowspan",rowspan);
+			newPiece.setAttribute("id",id);
+			newPiece.setAttribute("src","img/"+id+".jpg");
+			board.appendChild(newPiece);
+			pieces[id] = newPiece;
+		}
+		function addBlank(number){
+			id = "blank_"+number;
+			var newBlank = document.createElement("div");
+			newBlank.setAttribute("class","piece");
+			newBlank.setAttribute("x",0);
+			newBlank.setAttribute("y",0);
+			newBlank.setAttribute("colspan",1);
+			newBlank.setAttribute("rowspan",1);
+			newBlank.setAttribute("id",id);
+			newBlank.setAttribute("src","img/"+id+".jpg");
+			newBlank.innerHTML = '空';
+			board.appendChild(newBlank);
+			pieces[id] = newBlank;
+		}
+		addPiece("CaoCao");
+		addPiece("GuanYu");
+		addPiece("ZhaoYun");
+		addPiece("HuangZhong");
+		addPiece("ZhangFei");
+		addPiece("MaChao");
+		addPiece("Zu1");
+		addPiece("Zu2");
+		addPiece("Zu3");
+		addPiece("Zu4");
+		addBlank(1);
+		addBlank(2);
+		reset(1);
 	}
-	function move(id,direction){
-		var piece = document.getElementById(id);
+	function reset(plan){//按照方案重新排列
+		moveByXY("CaoCao",1,0);
+		moveByXY("GuanYu",1,4);
+		moveByXY("ZhaoYun",3,0);
+		moveByXY("HuangZhong",0,2);
+		moveByXY("ZhangFei",0,0);
+		moveByXY("MaChao",3,2);
+		moveByXY("Zu1",1,2);
+		moveByXY("Zu2",2,2);
+		moveByXY("Zu3",1,3);
+		moveByXY("Zu4",2,3);
+		moveByXY("blank_1",0,4);
+		moveByXY("blank_2",3,4);
+		stepNumber= 0;
+		removeAutoMoveTimer();
+	}
+	function moveByDirection(id,direction){//移动一个方块
+		var piece = pieces[id];
 		if(!piece){
 			console.log("error 0:function move("+id+","+direction+"):Unable to find!");
 			return;
@@ -172,10 +130,41 @@ window.addEventListener('load',function(){
 			}
 		}
 	}
+	function moveByXY(id,x,y){//移动一个方块
+		var piece = pieces[id];
+		piece.setAttribute("x",x);
+		piece.setAttribute("y",y);
+	}
+	for (var key in pieces) {
+		pieces[key].addEventListener("click",function(e){
+			if(activePiece&&activePiece.getAttribute("active")) activePiece.removeAttribute("active");
+			activePiece = this;
+			activePiece.setAttribute("active",1);
+			if ( e && e.stopPropagation ) e.stopPropagation();else window.event.cancelBubble = true; 
+		});
+	}
+	board.addEventListener("click",function(e){
+		if(activePiece){
+			var endX=parseInt(e.offsetX/this.clientWidth*4);
+			var endY=parseInt(e.offsetY/this.clientHeight*5);
+			var startX=parseInt(activePiece.getAttribute("x"));
+			var startY=parseInt(activePiece.getAttribute("y"));
+			var colspan=parseInt(activePiece.getAttribute("colspan"));
+			var rowspan=parseInt(activePiece.getAttribute("rowspan"));
+			var direction;
+			console.log("activePiece = "+activePiece.id+";startX="+startX+";startY="+startY+";endX="+endX+";endY="+endY+";colspan="+colspan+";rowspan="+rowspan+";");
+			if(startX + colspan == endX && endY >= startY && endY < startY + rowspan)direction = "RIGHT";
+			if(startX - 1 		== endX && endY >= startY && endY < startY + rowspan)direction = "LEFT";
+			if(startY + rowspan == endY && endX >= startX && endX < startX + colspan)direction = "DOWN";
+			if(startY - 1 		== endY && endX >= startX && endX < startX + colspan)direction = "UP";
+			moveByDirection(activePiece.id,direction);
+			//需要记录空白处，否则高为2的块向左或向右移动切只有一个空白时，就会出错
+		}
+	});
 	function autoMove(){
 		if(solution[stepNumber]){
 			for(var key in solution[stepNumber]){
-		 		move(key,solution[stepNumber][key]);
+		 		moveByDirection(key,solution[stepNumber][key]);
 		 	}
 		 	stepNumber++;
 		 	return true;
@@ -195,7 +184,7 @@ window.addEventListener('load',function(){
 					case "LEFT" : direction = "RIGHT";break;
 					case "RIGHT" : direction = "LEFT";break;
 				}
-		 		move(key,direction);
+		 		moveByDirection(key,direction);
 		 	}	
 		}
 	}
@@ -212,44 +201,23 @@ window.addEventListener('load',function(){
 		console.log("clearInterval(AutoMoveTimer)!");
 		window.clearInterval(AutoMoveTimer); 
 	}
-
-	(function(){
-		var board = document.getElementById("board");
-		var pieces = board.getElementsByClassName("piece");
-		var activePiece;
-		for (var i = pieces.length - 1; i >= 0; i--) {
-			pieces[i].addEventListener("click",function(e){
-				if(activePiece&&activePiece.getAttribute("active")) activePiece.removeAttribute("active");
-				activePiece = this;
-				activePiece.setAttribute("active",1);
-				if ( e && e.stopPropagation ) e.stopPropagation();else window.event.cancelBubble = true; 
-			});
-		}
-		board.addEventListener("click",function(e){
-			if(activePiece){
-				var endX=parseInt(e.offsetX/this.clientWidth*4);
-				var endY=parseInt(e.offsetY/this.clientHeight*5);
-				var startX=parseInt(activePiece.getAttribute("x"));
-				var startY=parseInt(activePiece.getAttribute("y"));
-				var colspan=parseInt(activePiece.getAttribute("colspan"));
-				var rowspan=parseInt(activePiece.getAttribute("rowspan"));
-				var direction;
-				console.log("activePiece = "+activePiece.id+";startX="+startX+";startY="+startY+";endX="+endX+";endY="+endY+";colspan="+colspan+";rowspan="+rowspan+";");
-				if(startX + colspan == endX && endY >= startY && endY < startY + rowspan)direction = "RIGHT";
-				if(startX - 1 		== endX && endY >= startY && endY < startY + rowspan)direction = "LEFT";
-				if(startY + rowspan == endY && endX >= startX && endX < startX + colspan)direction = "DOWN";
-				if(startY - 1 		== endY && endX >= startX && endX < startX + colspan)direction = "UP";
-				move(activePiece.id,direction);
-				//需要记录空白处，否则高为2的块向左或向右移动切只有一个空白时，就会出错
-			}
-		
-		});
-	})();
+})();
 
 
 
 
-});
+
+
+
+
+
+
+
+
+
+
+
+
 // meta移动端缩放
 (function(){
 	var oMeta = document.createElement('meta');
@@ -267,3 +235,4 @@ window.addEventListener('load',function(){
 		});
 	}
 })();
+
