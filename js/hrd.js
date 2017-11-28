@@ -2,6 +2,8 @@
 // 全局变量：
 	var board = document.getElementById("board");
 	var pieces = new Array;//棋子，一个字符数组，包含七个棋子和两个空位
+	var blankPieces = new Array;
+	var subsistentPiece = new Array;
 	var activePiece;//当前被选中的棋子
 	// 按钮
 	var resetButton = document.getElementById("reset");
@@ -22,6 +24,8 @@
 
 
 	init();
+	console.log(blankPieces);
+
 	resetButton.addEventListener("click",reset);
 	nextButton.addEventListener("click",autoMove);
 	preButton.addEventListener("click",revokeAutoMove);
@@ -58,6 +62,7 @@
 			newPiece.setAttribute("src","img/"+id+".jpg");
 			board.appendChild(newPiece);
 			pieces[id] = newPiece;
+			subsistentPiece[id] = newPiece;
 		}
 		function addBlank(number){
 			id = "blank_"+number;
@@ -72,6 +77,7 @@
 			newBlank.innerHTML = '空';
 			board.appendChild(newBlank);
 			pieces[id] = newBlank;
+			blankPieces[number] = newBlank;
 		}
 		addPiece("CaoCao");
 		addPiece("GuanYu");
@@ -83,8 +89,8 @@
 		addPiece("Zu2");
 		addPiece("Zu3");
 		addPiece("Zu4");
+		addBlank(0);
 		addBlank(1);
-		addBlank(2);
 		reset(1);
 	}
 	function reset(plan){//按照方案重新排列
@@ -98,8 +104,8 @@
 		moveByXY("Zu2",2,2);
 		moveByXY("Zu3",1,3);
 		moveByXY("Zu4",2,3);
-		moveByXY("blank_1",0,4);
-		moveByXY("blank_2",3,4);
+		moveByXY("blank_0",0,4);
+		moveByXY("blank_1",3,4);
 		stepNumber= 0;
 		removeAutoMoveTimer();
 	}
@@ -118,7 +124,6 @@
 				case "DOWN":y +=1;break;
 				case "LEFT":x -=1;break;
 				case "RIGHT":x +=1;break;
-				default:console.log("error 1:function move("+id+","+direction+"):Unable to move!");
 			}
 			if(x>=0 && x+colspan<5 && y>=0 &&y+rowspan<6){
 				piece.setAttribute("x",x);
@@ -135,32 +140,36 @@
 		piece.setAttribute("x",x);
 		piece.setAttribute("y",y);
 	}
-	for (var key in pieces) {
-		pieces[key].addEventListener("click",function(e){
+	for (var key in subsistentPiece) {
+		subsistentPiece[key].addEventListener("click",function(e){
 			if(activePiece&&activePiece.getAttribute("active")) activePiece.removeAttribute("active");
 			activePiece = this;
 			activePiece.setAttribute("active",1);
 			if ( e && e.stopPropagation ) e.stopPropagation();else window.event.cancelBubble = true; 
 		});
 	}
-	board.addEventListener("click",function(e){
-		if(activePiece){
-			var endX=parseInt(e.offsetX/this.clientWidth*4);
-			var endY=parseInt(e.offsetY/this.clientHeight*5);
-			var startX=parseInt(activePiece.getAttribute("x"));
-			var startY=parseInt(activePiece.getAttribute("y"));
-			var colspan=parseInt(activePiece.getAttribute("colspan"));
-			var rowspan=parseInt(activePiece.getAttribute("rowspan"));
-			var direction;
-			console.log("activePiece = "+activePiece.id+";startX="+startX+";startY="+startY+";endX="+endX+";endY="+endY+";colspan="+colspan+";rowspan="+rowspan+";");
-			if(startX + colspan == endX && endY >= startY && endY < startY + rowspan)direction = "RIGHT";
-			if(startX - 1 		== endX && endY >= startY && endY < startY + rowspan)direction = "LEFT";
-			if(startY + rowspan == endY && endX >= startX && endX < startX + colspan)direction = "DOWN";
-			if(startY - 1 		== endY && endX >= startX && endX < startX + colspan)direction = "UP";
-			moveByDirection(activePiece.id,direction);
-			//需要记录空白处，否则高为2的块向左或向右移动切只有一个空白时，就会出错
-		}
-	});
+	for(var key in blankPieces){
+		blankPieces[key].addEventListener("click",function(e){
+			if(activePiece){
+				// var endX=parseInt(e.offsetX/this.clientWidth*4);
+				// var endY=parseInt(e.offsetY/this.clientHeight*5);
+				var endX=parseInt(this.getAttribute("x"));
+				var endY=parseInt(this.getAttribute("y"));
+				var startX=parseInt(activePiece.getAttribute("x"));
+				var startY=parseInt(activePiece.getAttribute("y"));
+				var colspan=parseInt(activePiece.getAttribute("colspan"));
+				var rowspan=parseInt(activePiece.getAttribute("rowspan"));
+				var direction;
+				console.log("activePiece = "+activePiece.id+";startX="+startX+";startY="+startY+";endX="+endX+";endY="+endY+";colspan="+colspan+";rowspan="+rowspan+";");
+				if(startX + colspan == endX && endY >= startY && endY < startY + rowspan)direction = "RIGHT";
+				if(startX - 1 		== endX && endY >= startY && endY < startY + rowspan)direction = "LEFT";
+				if(startY + rowspan == endY && endX >= startX && endX < startX + colspan)direction = "DOWN";
+				if(startY - 1 		== endY && endX >= startX && endX < startX + colspan)direction = "UP";
+				moveByDirection(activePiece.id,direction);
+				//需要记录空白处，否则高为2的块向左或向右移动切只有一个空白时，就会出错
+			}
+		});
+	}
 	function autoMove(){
 		if(solution[stepNumber]){
 			for(var key in solution[stepNumber]){
