@@ -12,7 +12,7 @@
 	var autoButton = document.getElementById('auto');
 	resetButton.addEventListener("click",reset);
 //解决方法
-	var solution ={0:{"HuangZhong":"DOWN"},1:{"GuanYu" :"RIGHT"},2:{"Zu1" :"LEFT"},3:{"Zu2" :"LEFT"},4:{"Zu3" :"DOWN"},5:{"Zu4" :"LEFT"},6:{"MaChao" :"LEFT"},7:{"ZhaoYun" :"DOWN"},8:{"ZhaoYun" :"DOWN"},9:{"CaoCao" :"RIGHT"},10:{"Zu2" :"UP"},11:{"Zu1" :"RIGHT"},12:{"HuangZhong":"UP"},13:{"Zu2" :"UP"},14:{"Zu1" :"UP"},15:{"Zu4" :"UP"},16:{"Zu3" :"UP"},17:{"GuanYu" :"LEFT"},18:{"ZhaoYun" :"DOWN"},19:{"GuanYu" :"LEFT"},20:{"MaChao" :"DOWN"},21:{"CaoCao" :"DOWN"},22:{"Zu2" :"RIGHT"},23:{"Zu1" :"UP"},24:{"Zu2" :"RIGHT"},25:{"Zu1" :"RIGHT"},26:{"Zu4" :"UP"},27:{"Zu4" :"UP"},28:{"CaoCao" :"LEFT"},29:{"ZhaoYun" :"UP"},30:{"ZhaoYun" :"UP"},31:{"MaChao" :"RIGHT"},32:{"Zu3" :"RIGHT"},33:{"Zu3" :"DOWN"},34:{"CaoCao" :"DOWN"},35:{"Zu1" :"DOWN"},36:{"Zu4" :"RIGHT"},37:{"ZhangFei" :"RIGHT"},38:{"HuangZhong":"UP"},39:{"HuangZhong":"UP"},40:{"CaoCao" :"LEFT"},41:{"Zu1" :"DOWN"},42:{"Zu1" :"DOWN"},43:{"Zu4" :"DOWN"},44:{"Zu2" :"LEFT"},45:{"ZhaoYun" :"UP"},46:{"MaChao" :"UP"},47:{"Zu3" :"RIGHT"},48:{"Zu1" :"DOWN"},49:{"CaoCao" :"RIGHT"},50:{"HuangZhong":"DOWN"},51:{"HuangZhong":"DOWN"},52:{"ZhangFei" :"LEFT"},53:{"Zu2" :"LEFT"},54:{"Zu4" :"LEFT"},55:{"ZhaoYun" :"LEFT"},56:{"MaChao" :"UP"},57:{"MaChao" :"UP"},58:{"CaoCao" :"RIGHT"},59:{"HuangZhong":"RIGHT"},60:{"ZhangFei" :"DOWN"},61:{"Zu2" :"LEFT"},62:{"Zu4" :"UP"},63:{"HuangZhong":"UP"},64:{"GuanYu" :"UP"},65:{"Zu1" :"LEFT"},66:{"Zu1" :"LEFT"},67:{"Zu3" :"LEFT"},68:{"Zu3" :"LEFT"},69:{"CaoCao" :"DOWN"},70:{"ZhaoYun" :"DOWN"},71:{"MaChao" :"DOWN"},72:{"Zu4" :"RIGHT"},73:{"Zu2" :"RIGHT"},74:{"ZhangFei" :"UP"},75:{"Zu4" :"RIGHT"},76:{"Zu2" :"RIGHT"},77:{"HuangZhong":"UP"},78:{"GuanYu" :"UP"},79:{"Zu1" :"UP"},80:{"Zu3" :"LEFT"},81:{"CaoCao" :"LEFT"}};
+	var solution = [["HuangZhong","DOWN"],["GuanYu" ,"RIGHT"],["Zu1" ,"LEFT"],["Zu2" ,"LEFT"],["Zu3" ,"DOWN"],["Zu4" ,"LEFT"],["MaChao" ,"LEFT"],["ZhaoYun" ,"DOWN"],["ZhaoYun" ,"DOWN"],["CaoCao" ,"RIGHT"],["Zu2" ,"UP"],["Zu1" ,"RIGHT"],["HuangZhong","UP"],["Zu2" ,"UP"],["Zu1" ,"UP"],["Zu4" ,"UP"],["Zu3" ,"UP"],["GuanYu" ,"LEFT"],["ZhaoYun" ,"DOWN"],["GuanYu" ,"LEFT"],["MaChao" ,"DOWN"],["CaoCao" ,"DOWN"],["Zu2" ,"RIGHT"],["Zu1" ,"UP"],["Zu2" ,"RIGHT"],["Zu1" ,"RIGHT"],["Zu4" ,"UP"],["Zu4" ,"UP"],["CaoCao" ,"LEFT"],["ZhaoYun" ,"UP"],["ZhaoYun" ,"UP"],["MaChao" ,"RIGHT"],["Zu3" ,"RIGHT"],["Zu3" ,"DOWN"],["CaoCao" ,"DOWN"],["Zu1" ,"DOWN"],["Zu4" ,"RIGHT"],["ZhangFei" ,"RIGHT"],["HuangZhong","UP"],["HuangZhong","UP"],["CaoCao" ,"LEFT"],["Zu1" ,"DOWN"],["Zu1" ,"DOWN"],["Zu4" ,"DOWN"],["Zu2" ,"LEFT"],["ZhaoYun" ,"UP"],["MaChao" ,"UP"],["Zu3" ,"RIGHT"],["Zu1" ,"DOWN"],["CaoCao" ,"RIGHT"],["HuangZhong","DOWN"],["HuangZhong","DOWN"],["ZhangFei" ,"LEFT"],["Zu2" ,"LEFT"],["Zu4" ,"LEFT"],["ZhaoYun" ,"LEFT"],["MaChao" ,"UP"],["MaChao" ,"UP"],["CaoCao" ,"RIGHT"],["HuangZhong","RIGHT"],["ZhangFei" ,"DOWN"],["Zu2" ,"LEFT"],["Zu4" ,"UP"],["HuangZhong","UP"],["GuanYu" ,"UP"],["Zu1" ,"LEFT"],["Zu1" ,"LEFT"],["Zu3" ,"LEFT"],["Zu3" ,"LEFT"],["CaoCao" ,"DOWN"],["ZhaoYun" ,"DOWN"],["MaChao" ,"DOWN"],["Zu4" ,"RIGHT"],["Zu2" ,"RIGHT"],["ZhangFei" ,"UP"],["Zu4" ,"RIGHT"],["Zu2" ,"RIGHT"],["HuangZhong","UP"],["GuanYu" ,"UP"],["Zu1" ,"UP"],["Zu3" ,"LEFT"],["CaoCao" ,"LEFT"]];
 //自动行走
 	var stepNumber = 0;
 	var AutoMoveTimer;
@@ -24,7 +24,6 @@
 
 
 	init();
-	console.log(blankPieces);
 
 	resetButton.addEventListener("click",reset);
 	nextButton.addEventListener("click",autoMove);
@@ -73,8 +72,6 @@
 			newBlank.setAttribute("colspan",1);
 			newBlank.setAttribute("rowspan",1);
 			newBlank.setAttribute("id",id);
-			newBlank.setAttribute("src","img/"+id+".jpg");
-			newBlank.innerHTML = '空';
 			board.appendChild(newBlank);
 			pieces[id] = newBlank;
 			blankPieces[number] = newBlank;
@@ -112,7 +109,7 @@
 	function moveByDirection(id,direction){//移动一个方块
 		var piece = pieces[id];
 		if(!piece){
-			console.log("error 0:function move("+id+","+direction+"):Unable to find!");
+			console.log("error 0:function moveByDirection("+id+","+direction+"):Unable to find!");
 			return;
 		}else{
 			x = parseInt(piece.getAttribute("x"));
@@ -130,7 +127,7 @@
 				piece.setAttribute("y",y);
 				return true;
 			}else{
-				console.log("error 2:function move("+id+","+direction+"):Unable to move!("+"X="+x+";y="+y+")");
+				console.log("error 2:function moveByDirection("+id+","+direction+"):Unable to move!("+"X="+x+";y="+y+")");
 				return false;
 			}
 		}
@@ -151,30 +148,83 @@
 	for(var key in blankPieces){
 		blankPieces[key].addEventListener("click",function(e){
 			if(activePiece){
-				// var endX=parseInt(e.offsetX/this.clientWidth*4);
-				// var endY=parseInt(e.offsetY/this.clientHeight*5);
-				var endX=parseInt(this.getAttribute("x"));
-				var endY=parseInt(this.getAttribute("y"));
-				var startX=parseInt(activePiece.getAttribute("x"));
-				var startY=parseInt(activePiece.getAttribute("y"));
+				var direction;
+				var activeBlankPieces;
+				var temp;
+				// 长，宽
+				var length;
+				var width;
+
 				var colspan=parseInt(activePiece.getAttribute("colspan"));
 				var rowspan=parseInt(activePiece.getAttribute("rowspan"));
-				var direction;
-				console.log("activePiece = "+activePiece.id+";startX="+startX+";startY="+startY+";endX="+endX+";endY="+endY+";colspan="+colspan+";rowspan="+rowspan+";");
-				if(startX + colspan == endX && endY >= startY && endY < startY + rowspan)direction = "RIGHT";
-				if(startX - 1 		== endX && endY >= startY && endY < startY + rowspan)direction = "LEFT";
-				if(startY + rowspan == endY && endX >= startX && endX < startX + colspan)direction = "DOWN";
-				if(startY - 1 		== endY && endX >= startX && endX < startX + colspan)direction = "UP";
+
+				var blank = this;
+				var otherBlank;
+				if(blank == blankPieces[0]){
+					otherBlank = blankPieces[1];
+				}else{
+					otherBlank = blankPieces[0];
+				}
+				// 判断方向
+				direction = findDirection(activePiece,blank);
+				switch(direction){
+					case "UP":
+						length = rowspan;
+						width = colspan;
+						break;
+					case "DOWN":
+						length = rowspan;
+						width = colspan;
+						break;
+					case "LEFT":
+						length = colspan;
+						width = rowspan;
+						break;
+					case "RIGHT":
+						length = colspan;
+						width = rowspan;
+						break;
+					default:console.log("error!");return false;
+				}
+				if(width == 1){
+					activeBlankPieces = new Array(this);
+				}else{
+					activeBlankPieces = blankPieces;
+					// 判断第二个空白的方向
+					if(!(direction == findDirection(activePiece,otherBlank))){
+						console.log("error");
+						return false;
+					}
+				}
 				moveByDirection(activePiece.id,direction);
-				//需要记录空白处，否则高为2的块向左或向右移动切只有一个空白时，就会出错
+				for (var i = activeBlankPieces.length - 1; i >= 0; i--) {
+					for(var j = length;j > 0;j --){
+						moveByDirection(activeBlankPieces[i].id,oppositeOfDirection(direction));
+					}
+					console.log(i);
+				}
+			}
+			function findDirection(start,end){
+				var startX=parseInt(start.getAttribute("x"));
+				var startY=parseInt(start.getAttribute("y"));
+				var colspan=parseInt(start.getAttribute("colspan"));
+				var rowspan=parseInt(start.getAttribute("rowspan"));
+				var endX=parseInt(end.getAttribute("x"));
+				var endY=parseInt(end.getAttribute("y"));
+				if(endY >= startY && endY < startY + rowspan){
+					if(startX + colspan == endX)return "RIGHT";
+					else if(startX - 1 == endX)return "LEFT";
+				}
+				if(endX >= startX && endX < startX + colspan){
+					if(startY + rowspan == endY)return "DOWN";
+					else if(startY - 1 == endY)return "UP";
+				}
 			}
 		});
 	}
 	function autoMove(){
 		if(solution[stepNumber]){
-			for(var key in solution[stepNumber]){
-		 		moveByDirection(key,solution[stepNumber][key]);
-		 	}
+	 		moveByDirection(solution[stepNumber][0],solution[stepNumber][1]);
 		 	stepNumber++;
 		 	return true;
 		}else{
@@ -186,15 +236,13 @@
 		var direction;
 		if(stepNumber>0){
 		 	stepNumber--;
-			for(var key in solution[stepNumber]){
-				switch(solution[stepNumber][key]){
-					case "UP" : direction = "DOWN";break;
-					case "DOWN" : direction = "UP";break;
-					case "LEFT" : direction = "RIGHT";break;
-					case "RIGHT" : direction = "LEFT";break;
-				}
-		 		moveByDirection(key,direction);
-		 	}	
+			switch(solution[stepNumber][1]){
+				case "UP" : direction = "DOWN";break;
+				case "DOWN" : direction = "UP";break;
+				case "LEFT" : direction = "RIGHT";break;
+				case "RIGHT" : direction = "LEFT";break;
+			}
+	 		moveByDirection(key,direction);
 		}
 	}
 	function addAutoMoveTimer(){
@@ -211,6 +259,15 @@
 		window.clearInterval(AutoMoveTimer); 
 	}
 })();
+	function oppositeOfDirection(direction){
+		switch(direction){
+			case "UP" : return "DOWN";
+			case "DOWN" : return "UP";
+			case "LEFT" : return "RIGHT";
+			case "RIGHT" : return "LEFT";
+			default : return false;
+		}
+	}
 
 
 
@@ -244,4 +301,7 @@
 		});
 	}
 })();
+
+
+
 
