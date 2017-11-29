@@ -20,11 +20,7 @@
 //init() 	//添加方块，并按方案进行排列，再把节点都存进pieces变量中
 //reset()	//按照方案重新排列
 //moveByDirection()	//移动一个方块
-
-
-
 	init();
-
 	resetButton.addEventListener("click",reset);
 	nextButton.addEventListener("click",autoMove);
 	preButton.addEventListener("click",revokeAutoMove);
@@ -35,9 +31,6 @@
 			case 38:revokeAutoMove();break;
 		}
 	});
-
-
-
 // 函数
 	function init() {
 		function addPiece(id){
@@ -168,19 +161,11 @@
 				// 判断方向
 				direction = findDirection(activePiece,blank);
 				switch(direction){
-					case "UP":
+					case "UP":case "DOWN":
 						length = rowspan;
 						width = colspan;
 						break;
-					case "DOWN":
-						length = rowspan;
-						width = colspan;
-						break;
-					case "LEFT":
-						length = colspan;
-						width = rowspan;
-						break;
-					case "RIGHT":
+					case "LEFT":case "RIGHT":
 						length = colspan;
 						width = rowspan;
 						break;
@@ -189,9 +174,9 @@
 				if(width == 1){
 					activeBlankPieces = new Array(this);
 				}else{
-					activeBlankPieces = blankPieces;
+					activeBlankPieces = new Array(this,otherBlank);
 					// 判断第二个空白的方向
-					if(!(direction == findDirection(activePiece,otherBlank))){
+					if(direction != findDirection(activePiece,otherBlank)){
 						console.log("error");
 						return false;
 					}
@@ -201,7 +186,6 @@
 					for(var j = length;j > 0;j --){
 						moveByDirection(activeBlankPieces[i].id,oppositeOfDirection(direction));
 					}
-					console.log(i);
 				}
 			}
 			function findDirection(start,end){
@@ -258,7 +242,6 @@
 		console.log("clearInterval(AutoMoveTimer)!");
 		window.clearInterval(AutoMoveTimer); 
 	}
-})();
 	function oppositeOfDirection(direction){
 		switch(direction){
 			case "UP" : return "DOWN";
@@ -268,22 +251,7 @@
 			default : return false;
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+})();
 // meta移动端缩放
 (function(){
 	var oMeta = document.createElement('meta');
