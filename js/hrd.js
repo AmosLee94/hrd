@@ -13,6 +13,7 @@
 	resetButton.addEventListener("click",reset);
 //解决方法
 	var solution = [["HuangZhong","DOWN"],["GuanYu" ,"RIGHT"],["Zu1" ,"LEFT"],["Zu2" ,"LEFT"],["Zu3" ,"DOWN"],["Zu4" ,"LEFT"],["MaChao" ,"LEFT"],["ZhaoYun" ,"DOWN"],["ZhaoYun" ,"DOWN"],["CaoCao" ,"RIGHT"],["Zu2" ,"UP"],["Zu1" ,"RIGHT"],["HuangZhong","UP"],["Zu2" ,"UP"],["Zu1" ,"UP"],["Zu4" ,"UP"],["Zu3" ,"UP"],["GuanYu" ,"LEFT"],["ZhaoYun" ,"DOWN"],["GuanYu" ,"LEFT"],["MaChao" ,"DOWN"],["CaoCao" ,"DOWN"],["Zu2" ,"RIGHT"],["Zu1" ,"UP"],["Zu2" ,"RIGHT"],["Zu1" ,"RIGHT"],["Zu4" ,"UP"],["Zu4" ,"UP"],["CaoCao" ,"LEFT"],["ZhaoYun" ,"UP"],["ZhaoYun" ,"UP"],["MaChao" ,"RIGHT"],["Zu3" ,"RIGHT"],["Zu3" ,"DOWN"],["CaoCao" ,"DOWN"],["Zu1" ,"DOWN"],["Zu4" ,"RIGHT"],["ZhangFei" ,"RIGHT"],["HuangZhong","UP"],["HuangZhong","UP"],["CaoCao" ,"LEFT"],["Zu1" ,"DOWN"],["Zu1" ,"DOWN"],["Zu4" ,"DOWN"],["Zu2" ,"LEFT"],["ZhaoYun" ,"UP"],["MaChao" ,"UP"],["Zu3" ,"RIGHT"],["Zu1" ,"DOWN"],["CaoCao" ,"RIGHT"],["HuangZhong","DOWN"],["HuangZhong","DOWN"],["ZhangFei" ,"LEFT"],["Zu2" ,"LEFT"],["Zu4" ,"LEFT"],["ZhaoYun" ,"LEFT"],["MaChao" ,"UP"],["MaChao" ,"UP"],["CaoCao" ,"RIGHT"],["HuangZhong","RIGHT"],["ZhangFei" ,"DOWN"],["Zu2" ,"LEFT"],["Zu4" ,"UP"],["HuangZhong","UP"],["GuanYu" ,"UP"],["Zu1" ,"LEFT"],["Zu1" ,"LEFT"],["Zu3" ,"LEFT"],["Zu3" ,"LEFT"],["CaoCao" ,"DOWN"],["ZhaoYun" ,"DOWN"],["MaChao" ,"DOWN"],["Zu4" ,"RIGHT"],["Zu2" ,"RIGHT"],["ZhangFei" ,"UP"],["Zu4" ,"RIGHT"],["Zu2" ,"RIGHT"],["HuangZhong","UP"],["GuanYu" ,"UP"],["Zu1" ,"UP"],["Zu3" ,"LEFT"],["CaoCao" ,"LEFT"]];
+
 //自动行走
 	var stepNumber = 0;
 	var AutoMoveTimer;
@@ -187,6 +188,7 @@
 						moveByDirection(activeBlankPieces[i].id,oppositeOfDirection(direction));
 					}
 				}
+				if(pieces["CaoCao"].getAttribute("y") == "0" && pieces["CaoCao"].getAttribute("x") == "2") setTimeout(function(){alert('恭喜通关！');},300);
 			}
 			function findDirection(start,end){
 				var startX=parseInt(start.getAttribute("x"));
@@ -269,6 +271,9 @@
 		});
 	}
 })();
+
+
+
 
 
 
