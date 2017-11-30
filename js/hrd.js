@@ -188,7 +188,7 @@
 						moveByDirection(activeBlankPieces[i].id,oppositeOfDirection(direction));
 					}
 				}
-				if(pieces["CaoCao"].getAttribute("y") == "0" && pieces["CaoCao"].getAttribute("x") == "2") setTimeout(function(){alert('恭喜通关！');},300);
+				if(pieces["CaoCao"].getAttribute("y") == "3" && pieces["CaoCao"].getAttribute("x") == "1") setTimeout(function(){alert('恭喜通关！');},300);
 			}
 			function findDirection(start,end){
 				var startX=parseInt(start.getAttribute("x"));
