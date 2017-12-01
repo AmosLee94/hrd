@@ -53,6 +53,7 @@
 			newPiece.setAttribute("rowspan",rowspan);
 			newPiece.setAttribute("id",id);
 			newPiece.setAttribute("src","img/"+id+".jpg");
+			newPiece.setAttribute("draggable","false");
 			board.appendChild(newPiece);
 			pieces[id] = newPiece;
 			subsistentPiece[id] = newPiece;

@@ -63,7 +63,5 @@ h2{margin: 0;}
 	opacity: 0.6;
 }
 /*#blank_1,#blank_2{display: none;}*/
-button{padding: 10px 28px;}
-
-
+button{padding: 11px 28px;}
 #nextStep,#preStep,#auto{display: none;}
