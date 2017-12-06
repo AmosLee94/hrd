@@ -171,7 +171,7 @@
 						length = colspan;
 						width = rowspan;
 						break;
-					default:console.log("error!");return false;
+					default:console.log("error!direction="+direction);return false;
 				}
 				if(width == 1){
 					activeBlankPieces = new Array(this);
@@ -229,7 +229,7 @@
 				case "LEFT" : direction = "RIGHT";break;
 				case "RIGHT" : direction = "LEFT";break;
 			}
-	 		moveByDirection(key,direction);
+	 		moveByDirection(solution[stepNumber][0],direction);
 		}
 	}
 	function addAutoMoveTimer(){
