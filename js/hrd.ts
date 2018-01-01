@@ -11,7 +11,6 @@ class Layout{
     public piecesSize = [[1,1],[1,1],[1,1],[1,1],[1,2],[1,2],[1,2],[1,2],[2,1],[2,2],[1,1],[1,1]];
     constructor(coords:number[][] = [[1,2],[2,2],[1,3],[2,3],[0,0],[0,2],[3,0],[3,2],[1,4],[1,0],[0,4],[3,4]]){
         if(coords.length != 12 ){
-            // console.log("error![Layout.constructor]");
             return ;
         }
         for(let i = 0;i < 12;i ++){
@@ -83,18 +82,15 @@ class Game {
 		let blankX = blankCoords[0];
 		let blankY = blankCoords[1];
 
-		// console.log(this.layout.piecesName[pieceId]+"("+pieceX+","+pieceY+")"+" to "+this.layout.piecesName[blankId]+"("+blankX+","+blankY+")");
 		
 		if(blankX >= pieceX && blankX < pieceX + pieceWidth){	//x坐标上看，空白在范围内
 			if(pieceY - 1 == blankY)direction = "UP";
 			else if(pieceY + pieceHeight == blankY)direction = "DOWN";
 		}
 		if(blankY >= pieceY && blankY < pieceY + pieceHeight){	//y坐标上看，空白在范围内
-			// console.log("direction --dd---");
 			if(pieceX - 1 == blankX)direction = "LEFT";
 			else if(pieceX + pieceWidth == blankX)direction = "RIGHT";
 		}
-		// console.log("direction -----"+direction);
 		return direction;
 	}
 	private checkGO(pieceId:number,blankId:number){	//检查能否行走
@@ -161,10 +157,8 @@ class Game {
 		path1.length > path2.length ? path = path1 : false;
 		path1.length < path2.length ? path = path2 : false;
 		(path1.length == 1 && path1.length ==  path2.length && path1[0] == path2[0]) ? path = path1 : false;
-		console.log(path);
 		for(let direction of path){
 			this.layout.move(pieceId,direction);
-			console.log("坐标:" + this.layout.piecesCoords[pieceId]);
 		}
 
 	}

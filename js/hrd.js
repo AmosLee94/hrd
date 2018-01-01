@@ -10,7 +10,6 @@ var Layout = /** @class */ (function () {
         this.piecesName = ["Zu1", "Zu2", "Zu3", "Zu4", "ZhangFei", "MaChao", "HuangZhong", "ZhaoYun", "GuanYu", "CaoCao", "blank1", "blank2"];
         this.piecesSize = [[1, 1], [1, 1], [1, 1], [1, 1], [1, 2], [1, 2], [1, 2], [1, 2], [2, 1], [2, 2], [1, 1], [1, 1]];
         if (coords.length != 12) {
-            // console.log("error![Layout.constructor]");
             return;
         }
         for (var i = 0; i < 12; i++) {
@@ -73,7 +72,6 @@ var Game = /** @class */ (function () {
         var blankCoords = this.layout.piecesCoords[blankId];
         var blankX = blankCoords[0];
         var blankY = blankCoords[1];
-        // console.log(this.layout.piecesName[pieceId]+"("+pieceX+","+pieceY+")"+" to "+this.layout.piecesName[blankId]+"("+blankX+","+blankY+")");
         if (blankX >= pieceX && blankX < pieceX + pieceWidth) {
             if (pieceY - 1 == blankY)
                 direction = "UP";
@@ -81,13 +79,11 @@ var Game = /** @class */ (function () {
                 direction = "DOWN";
         }
         if (blankY >= pieceY && blankY < pieceY + pieceHeight) {
-            // console.log("direction --dd---");
             if (pieceX - 1 == blankX)
                 direction = "LEFT";
             else if (pieceX + pieceWidth == blankX)
                 direction = "RIGHT";
         }
-        // console.log("direction -----"+direction);
         return direction;
     };
     Game.prototype.checkGO = function (pieceId, blankId) {
@@ -161,11 +157,9 @@ var Game = /** @class */ (function () {
         path1.length > path2.length ? path = path1 : false;
         path1.length < path2.length ? path = path2 : false;
         (path1.length == 1 && path1.length == path2.length && path1[0] == path2[0]) ? path = path1 : false;
-        console.log(path);
         for (var _i = 0, path_2 = path; _i < path_2.length; _i++) {
             var direction = path_2[_i];
             this.layout.move(pieceId, direction);
-            console.log("坐标:" + this.layout.piecesCoords[pieceId]);
         }
     };
     return Game;
