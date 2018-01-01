@@ -64,9 +64,15 @@ class Game {
 	public reset(){
 		this.layout = new Layout(this.plans[this.planId]);
 	}
-	public changePlan(planId:number){
-		this.planId ++ ;
-		if(this.planId > 5)this.planId = 0;
+	public changePlan(planId:number = -1){
+		if (planId == -1) {
+			planId= Math.floor(Math.random() * (this.plans.length - 1));
+			if(planId >= this.planId) planId ++;
+			console.log(planId);
+		}
+		this.planId = planId;
+		console.log(planId);
+
 	}
 	private checkAttach(pieceId:number,blankId:number) {	//判断空白是否贴着棋子，是的话，返回方向,否则返回false
 		let direction:any = false;	

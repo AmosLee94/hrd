@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="container" id="hrd">
-		<h2>华容道</h2>
+		<h1>华容道<a href="https://github.com/AmosLee94/hrd">源码</a></h1>
 		<div id="board">
 			<img class="piece" v-for="(piece,index) in 10" v-bind:x="map[index][0]" v-bind:y="map[index][1]" v-bind:colspan="game.layout.piecesSize[index][0]" v-bind:rowspan="game.layout.piecesSize[index][1]" v-bind:id="index" v-bind:src="pieceSrc(index)" v-bind:draggable="piece.draggable" v-on:click="selectPiece(index)" ></img>
 
@@ -17,8 +17,8 @@
 		</div>
 		<div class="exit">出口</div>
 
-		<button v-on:click="reset">重置</button>
-		<button v-on:click="changePlan">选择</button>
+		<button v-on:click="reset" class="primary">重置</button>
+		<button v-on:click="changePlan">换图</button>
 	</div>
 </body>
 <script type="text/javascript" src="js/hrd.js"></script>
@@ -54,7 +54,7 @@
 			},
 			changePlan(){
 				this.game.changePlan();
-				this.game.reset(1);
+				this.game.reset();
 				this.map = this.game.layout.piecesCoords.slice(0);
 			}
 		}

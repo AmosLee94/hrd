@@ -57,9 +57,15 @@ var Game = /** @class */ (function () {
         this.layout = new Layout(this.plans[this.planId]);
     };
     Game.prototype.changePlan = function (planId) {
-        this.planId++;
-        if (this.planId > 5)
-            this.planId = 0;
+        if (planId === void 0) { planId = -1; }
+        if (planId == -1) {
+            planId = Math.floor(Math.random() * (this.plans.length - 1));
+            if (planId >= this.planId)
+                planId++;
+            console.log(planId);
+        }
+        this.planId = planId;
+        console.log(planId);
     };
     Game.prototype.checkAttach = function (pieceId, blankId) {
         var direction = false;
