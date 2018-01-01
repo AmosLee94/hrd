@@ -39,29 +39,23 @@
 			},
 			selectPiece:function(index){
 				this.selectedPiece = index;
-				// console.log("vue.selectPiece:"+index);
+				this.game.autoMove(index);
+				this.map = this.game.layout.piecesCoords.slice(0);
 			},
 			moveTo:function(index){
 				if(this.selectedPiece >= 0){
-					// console.log("[vue.moveTo]index: "+index);
 					this.game.moveTo(this.selectedPiece,index);
-					Vue.set(this.map,index,this.game.layout.piecesName[index]);
-					Vue.set(this.map,10,this.game.layout.piecesName[10]);
-					Vue.set(this.map,11,this.game.layout.piecesName[11]);
+					this.map = this.game.layout.piecesCoords.slice(0);
 				}
 			},
 			reset(planId){
 				this.game.reset(planId);
 				this.map = this.game.layout.piecesCoords.slice(0);
-				// for(var i in this.game.layout.piecesCoords){
-				// 	Vue.set(this.map,i,this.game.layout.piecesName[i]);
-				// }
 			},
 			changePlan(){
 				this.game.changePlan();
 				this.game.reset(1);
 				this.map = this.game.layout.piecesCoords.slice(0);
-
 			}
 		}
 	});

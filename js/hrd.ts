@@ -97,17 +97,12 @@ class Game {
 		// console.log("direction -----"+direction);
 		return direction;
 	}
-	private checkGO(pieceId:number,blankId:number){
+	private checkGO(pieceId:number,blankId:number){	//检查能否行走
 		let anotherBlankId = blankId == 10?11:10;
-
-		// console.log("checkGO:blankId: "+blankId+" anotherBlankId: "+anotherBlankId);
-		let pieceSize = this.layout.piecesSize[pieceId];
-		let pieceWidth = pieceSize[0];
-		let pieceHeight = pieceSize[1];
-
+		let pieceSize = this.layout.piecesSize[pieceId] , pieceWidth = pieceSize[0] , pieceHeight = pieceSize[1];
 		let direction = this.checkAttach(pieceId,blankId);
+
 		if(direction == "UP" || direction == "DOWN"){
-			// console.log("[Game.checkGO]UP or DOWN:第一层判断通过");
 			if (pieceWidth == 2){
 				let anotherDirection = this.checkAttach(pieceId,anotherBlankId);
 				if(anotherDirection == direction) return direction;
@@ -115,24 +110,18 @@ class Game {
 				return direction;
 			}
 		}else if(direction == "RIGHT" || direction == "LEFT"){
-
-			// console.log("[Game.checkGO]RIGHT or LEFT:第一层判断通过");
 			if (pieceHeight == 2){
 				let anotherDirection = this.checkAttach(pieceId,anotherBlankId);
-				// console.log("checkGO:anotherBlankId:"+anotherBlankId);
-				// console.log("checkGO:"+anotherDirection);
 				if(anotherDirection == direction) return direction;
-
 			}else if (pieceHeight == 1){
 				return direction;
 			}
 		}
 	}
-	public moveTo(pieceId:number,blankId:number){
-		// console.log(`[Game.moveTo]pieceId:${pieceId};blankId:${blankId}`);
+	private findPath(pieceId:number,blankId:number):string[]{	//查找路线
 		let direction = this.checkGO(pieceId,blankId);
-		if(direction){	//能移动
-			this.layout.move(pieceId,direction);
+		if(direction){
+			return [direction];
 		}else{
 			let anotherBlankId = blankId == 10?11:10;
 			let anotherDirection = this.checkGO(pieceId,anotherBlankId);
@@ -140,24 +129,49 @@ class Game {
 				let blankDirection = this.checkGO(anotherBlankId,blankId);
 				if(blankDirection){//目标空白贴着空白
 					if(anotherDirection == blankDirection){	//两个方向相同
-						this.layout.move(pieceId,anotherDirection);
-						this.layout.move(pieceId,anotherDirection);
+						return [anotherDirection,anotherDirection];
 					}else{
 						let piecesSize = this.layout.piecesSize[pieceId];
 						if(piecesSize[0] == 1 && piecesSize[1] == 1){
-							this.layout.move(pieceId,anotherDirection);
-							this.layout.move(pieceId,blankDirection);
+							return [anotherDirection,blankDirection];
 						}
 					}
 				}
 			}
 		}
+		return [];
+	}
+	public moveTo(pieceId:number,blankId:number){
+		let path = this.findPath(pieceId,blankId);
+		for(let direction of path){
+			this.layout.move(pieceId,direction);
+		}
+	}
+	public autoMove(pieceId:number){
+		//	函数目的：有移动的可能，则移动（最长路径移动）
+		//	情况分析:	1,	不能移动
+		// 				2，	对一个空白能移动一格，对另一个不移动
+		// 				3，	对一个空白能移动两格，对另一个能移动一格
+		// 				4， 都能移动，且相等
+		// 					-1	是两个路径
+		// 					-2	其实是移动需要两个空白
+		let path1 = this.findPath(pieceId,10);
+		let path2 = this.findPath(pieceId,11);
+		let path = [];
+		path1.length > path2.length ? path = path1 : false;
+		path1.length < path2.length ? path = path2 : false;
+		(path1.length == 1 && path1.length ==  path2.length && path1[0] == path2[0]) ? path = path1 : false;
+		console.log(path);
+		for(let direction of path){
+			this.layout.move(pieceId,direction);
+			console.log("坐标:" + this.layout.piecesCoords[pieceId]);
+		}
+
 	}
 }
 function main() {
 	let game = new Game();
 	game.reset();
-
 }
 main();
 

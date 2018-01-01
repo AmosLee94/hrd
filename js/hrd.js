@@ -92,13 +92,9 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.checkGO = function (pieceId, blankId) {
         var anotherBlankId = blankId == 10 ? 11 : 10;
-        // console.log("checkGO:blankId: "+blankId+" anotherBlankId: "+anotherBlankId);
-        var pieceSize = this.layout.piecesSize[pieceId];
-        var pieceWidth = pieceSize[0];
-        var pieceHeight = pieceSize[1];
+        var pieceSize = this.layout.piecesSize[pieceId], pieceWidth = pieceSize[0], pieceHeight = pieceSize[1];
         var direction = this.checkAttach(pieceId, blankId);
         if (direction == "UP" || direction == "DOWN") {
-            // console.log("[Game.checkGO]UP or DOWN:第一层判断通过");
             if (pieceWidth == 2) {
                 var anotherDirection = this.checkAttach(pieceId, anotherBlankId);
                 if (anotherDirection == direction)
@@ -109,11 +105,8 @@ var Game = /** @class */ (function () {
             }
         }
         else if (direction == "RIGHT" || direction == "LEFT") {
-            // console.log("[Game.checkGO]RIGHT or LEFT:第一层判断通过");
             if (pieceHeight == 2) {
                 var anotherDirection = this.checkAttach(pieceId, anotherBlankId);
-                // console.log("checkGO:anotherBlankId:"+anotherBlankId);
-                // console.log("checkGO:"+anotherDirection);
                 if (anotherDirection == direction)
                     return direction;
             }
@@ -122,11 +115,10 @@ var Game = /** @class */ (function () {
             }
         }
     };
-    Game.prototype.moveTo = function (pieceId, blankId) {
-        // console.log(`[Game.moveTo]pieceId:${pieceId};blankId:${blankId}`);
+    Game.prototype.findPath = function (pieceId, blankId) {
         var direction = this.checkGO(pieceId, blankId);
         if (direction) {
-            this.layout.move(pieceId, direction);
+            return [direction];
         }
         else {
             var anotherBlankId = blankId == 10 ? 11 : 10;
@@ -135,18 +127,45 @@ var Game = /** @class */ (function () {
                 var blankDirection = this.checkGO(anotherBlankId, blankId);
                 if (blankDirection) {
                     if (anotherDirection == blankDirection) {
-                        this.layout.move(pieceId, anotherDirection);
-                        this.layout.move(pieceId, anotherDirection);
+                        return [anotherDirection, anotherDirection];
                     }
                     else {
                         var piecesSize = this.layout.piecesSize[pieceId];
                         if (piecesSize[0] == 1 && piecesSize[1] == 1) {
-                            this.layout.move(pieceId, anotherDirection);
-                            this.layout.move(pieceId, blankDirection);
+                            return [anotherDirection, blankDirection];
                         }
                     }
                 }
             }
+        }
+        return [];
+    };
+    Game.prototype.moveTo = function (pieceId, blankId) {
+        var path = this.findPath(pieceId, blankId);
+        for (var _i = 0, path_1 = path; _i < path_1.length; _i++) {
+            var direction = path_1[_i];
+            this.layout.move(pieceId, direction);
+        }
+    };
+    Game.prototype.autoMove = function (pieceId) {
+        //	函数目的：有移动的可能，则移动（最长路径移动）
+        //	情况分析:	1,	不能移动
+        // 				2，	对一个空白能移动一格，对另一个不移动
+        // 				3，	对一个空白能移动两格，对另一个能移动一格
+        // 				4， 都能移动，且相等
+        // 					-1	是两个路径
+        // 					-2	其实是移动需要两个空白
+        var path1 = this.findPath(pieceId, 10);
+        var path2 = this.findPath(pieceId, 11);
+        var path = [];
+        path1.length > path2.length ? path = path1 : false;
+        path1.length < path2.length ? path = path2 : false;
+        (path1.length == 1 && path1.length == path2.length && path1[0] == path2[0]) ? path = path1 : false;
+        console.log(path);
+        for (var _i = 0, path_2 = path; _i < path_2.length; _i++) {
+            var direction = path_2[_i];
+            this.layout.move(pieceId, direction);
+            console.log("坐标:" + this.layout.piecesCoords[pieceId]);
         }
     };
     return Game;
