@@ -11,7 +11,7 @@
 	<div class="container" id="hrd">
 		<h1>华容道<a href="https://github.com/AmosLee94/hrd">源码</a></h1>
 		<div id="board">
-			<img class="piece" v-for="(piece,index) in 10" v-bind:x="map[index][0]" v-bind:y="map[index][1]" v-bind:colspan="game.layout.piecesSize[index][0]" v-bind:rowspan="game.layout.piecesSize[index][1]" v-bind:id="index" v-bind:src="pieceSrc(index)" v-bind:draggable="piece.draggable" v-on:click="selectPiece(index)" ></img>
+			<img class="piece" v-for="(piece,index) in 10" v-bind:x="map[index][0]" v-bind:y="map[index][1]" v-bind:colspan="game.layout.piecesSize[index][0]" v-bind:rowspan="game.layout.piecesSize[index][1]" v-bind:id="index" v-bind:src="pieceSrc(index)" v-bind:draggable="piece.draggable" v-on:click="selectPiece(index)" draggable="false"></img>
 
 			<div class="piece" v-for="(piece,index) in 2" v-bind:x="game.layout.piecesCoords[index+10][0]" v-bind:y="game.layout.piecesCoords[index+10][1]" v-bind:colspan="game.layout.piecesSize[index+10][0]" v-bind:rowspan="game.layout.piecesSize[index+10][1]" v-bind:id="index+10"  v-bind:draggable="piece.draggable" v-on:click="moveTo(index+10)" ></div>
 		</div>

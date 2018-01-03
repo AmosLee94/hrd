@@ -155,8 +155,8 @@ class Game {
 		// 				2，	对一个空白能移动一格，对另一个不移动
 		// 				3，	对一个空白能移动两格，对另一个能移动一格
 		// 				4， 都能移动，且相等
-		// 					-1	是两个路径
-		// 					-2	其实是移动需要两个空白
+		// 					-1	这是两个是两个路径
+		// 					-2	这次移动的棋子占用需要两个位置
 		let path1 = this.findPath(pieceId,10);
 		let path2 = this.findPath(pieceId,11);
 		let path = [];
