@@ -51,10 +51,10 @@ h1 a{font-size:0.5em;color: #999;}
 .piece[rowspan="2"]{height: 40%;}
 .piece[colspan="1"]{width: 25%;}
 .piece[colspan="2"]{width: 50%;}
-.piece[x="0"]{left:0;animation: all 5s;}
-.piece[x="1"]{left:25%;animation: all 5s;}
-.piece[x="2"]{left:50%;animation: all 5s;}
-.piece[x="3"]{left:75%;animation: all 5s;}
+.piece[x="0"]{left:0;}
+.piece[x="1"]{left:25%;}
+.piece[x="2"]{left:50%;}
+.piece[x="3"]{left:75%;}
 .piece[y="0"]{top:0;}
 .piece[y="1"]{top:20%;}
 .piece[y="2"]{top:40%;}
