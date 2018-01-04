@@ -3,8 +3,6 @@
 // 					函数：1、获取棋子位置；2、改变棋子位置
 // 	Game游戏：		记录：布局
 // 					函数：1、判断等否移动并移动
-
-
 class Layout{
     public piecesCoords = new Array();//棋子，十个坐标，代表十个棋子和两个空白的坐标，从0-9，分别是，Zu1-Zu4，ZhangFei，MaChao，HuangZhong，ZhaoYun，GuanYu，CaoCao
     public piecesName = ["Zu1","Zu2","Zu3","Zu4","ZhangFei","MaChao","HuangZhong","ZhaoYun","GuanYu","CaoCao","blank1","blank2"];
@@ -34,7 +32,6 @@ class Layout{
 
 		let moveDistance2 = {"UP":[0,-1],"DOWN":[0,pieceHeight],"LEFT":[-1,0],"RIGHT":[pieceWidth,0]}
 
-
 		let blankId = (this.piecesCoords[pieceId][0] + moveDistance2[direction][0] == this.piecesCoords[10][0] && this.piecesCoords[pieceId][1] + moveDistance2[direction][1] == this.piecesCoords[10][1])? 10 : 11;
 		let anotherBliankId = blankId == 10?11:10;
 		this.moveByDelta(pieceId,moveDistance[direction][0],moveDistance[direction][1]);
@@ -42,7 +39,6 @@ class Layout{
 
 		if(pieceSize[{"UP":0,"DOWN":0,"LEFT":1,"RIGHT":1}[direction]] == 2)//需要考虑宽度或者高度，
 			this.moveByDelta(anotherBliankId,- moveDistance[direction][0] * pieceWidth,- moveDistance[direction][1] * pieceHeight);
-
     }
 }
 class Game {
@@ -166,14 +162,10 @@ class Game {
 		for(let direction of path){
 			this.layout.move(pieceId,direction);
 		}
-
 	}
 }
-function main() {
-	let game = new Game();
-	game.reset();
-}
-main();
-
-
-
+// function main() {
+// 	let game = new Game();
+// 	game.reset();
+// }
+// main();

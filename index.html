@@ -9,11 +9,21 @@
 </head>
 <body>
 	<div class="container" id="hrd">
-		<h1>华容道<a href="https://github.com/AmosLee94/hrd">源码</a></h1>
+		<div class="hrd-header">
+			<div class="left">
+				<h1>华容道<a href="https://github.com/AmosLee94/hrd">源码</a></h1>
+			</div>
+			<div class="right">
+				<div class="particulars">
+					<p>来源：华容道游戏，取自著名的三国故事，曹操在赤壁大战中被刘备和孙权的“苦肉计”、“火烧连营”打败，被迫退逃到华容道，又遇上诸葛亮的伏兵，关羽为了报答曹操对他的恩情，明逼实让，终于帮助曹操逃出了华容道。“曹瞒兵败走华容，正与关公狭路逢。只为当初恩义重，放开金锁走蛟龙”。</p>
+					<p>玩法：通过移动各个棋子，帮助曹操从初始位置移到棋盘最下方中部，从出口逃走。不允许跨越棋子，还要设法用最少的步数把曹操移到出口。曹操逃出华容道的最大障碍是关羽，关羽立马华容道，一夫当关，万夫莫开。关羽与曹操当然是解开这一游戏的关键。四个刘备军兵是最灵活的，也最容易对付，如何发挥他们的作用也要充分考虑周全。</p>
+				</div>
+			</div>
+		</div>
 		<div id="board">
 			<img class="piece" v-for="(piece,index) in 10" v-bind:x="map[index][0]" v-bind:y="map[index][1]" v-bind:colspan="game.layout.piecesSize[index][0]" v-bind:rowspan="game.layout.piecesSize[index][1]" v-bind:id="index" v-bind:src="pieceSrc(index)" v-bind:draggable="piece.draggable" v-on:click="selectPiece(index)" draggable="false"></img>
 
-			<div class="piece" v-for="(piece,index) in 2" v-bind:x="game.layout.piecesCoords[index+10][0]" v-bind:y="game.layout.piecesCoords[index+10][1]" v-bind:colspan="game.layout.piecesSize[index+10][0]" v-bind:rowspan="game.layout.piecesSize[index+10][1]" v-bind:id="index+10"  v-bind:draggable="piece.draggable" v-on:click="moveTo(index+10)" ></div>
+			<div class="piece" v-for="(piece,index) in 2" v-bind:x="game.layout.piecesCoords[index+10][0]" v-bind:y="game.layout.piecesCoords[index+10][1]" v-bind:colspan="game.layout.piecesSize[index+10][0]" v-bind:rowspan="game.layout.piecesSize[index+10][1]" v-bind:id="index+10"  v-bind:draggable="piece.draggable" v-on:click="moveTo(index+10)"></div>
 		</div>
 		<div class="exit">出口</div>
 
